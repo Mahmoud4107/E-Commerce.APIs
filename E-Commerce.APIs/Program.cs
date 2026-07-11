@@ -1,4 +1,5 @@
 using E_Commerce.Repository;
+using E_Commerce.Repository.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
@@ -37,6 +38,7 @@ namespace E_Commerce.APIs
             try
             {
                 await context.Database.MigrateAsync();
+                await StoreContextSeeding.SeedAsync(context);
                       
             }
             catch (Exception ex)
