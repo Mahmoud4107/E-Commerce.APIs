@@ -1,3 +1,5 @@
+using E_Commerce.Core.Entities;
+using E_Commerce.Core.RepostriesContruct;
 using E_Commerce.Repository;
 using E_Commerce.Repository.Data;
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +28,7 @@ namespace E_Commerce.APIs
                 option.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
             });
 
+            builder.Services.AddScoped<IGenericRepository<Product>,GenericRepository<Product>>();
             #endregion
 
             var app = builder.Build();
