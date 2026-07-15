@@ -1,4 +1,6 @@
-﻿using E_Commerce.Core.Entities;
+﻿using AutoMapper;
+using E_Commerce.APIs.Dtos;
+using E_Commerce.Core.Entities;
 using E_Commerce.Core.RepostriesContruct;
 using E_Commerce.Core.Specification;
 using E_Commerce.Repository;
@@ -10,25 +12,29 @@ namespace E_Commerce.APIs.Controllers
     public class ProductsController : BaseAPIController
     {
         private readonly IGenericRepository<Product> _repository;
+        private readonly IMapper _mapper;
 
-        public ProductsController(IGenericRepository<Product> repository)
+        public ProductsController(IGenericRepository<Product> repository,IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
         [HttpGet]
         // api/product
-        public async Task<ActionResult<IEnumerable<Product>>> GetAllProduct()
+        public async Task<ActionResult<IEnumerable<ProductToReturn>>> GetAllProduct()
         {
             var productspec = new ProductSpecfication();
             var products = await _repository.GetAllAsyncWithSpec(productspec);
 
-            return Ok(products);
+            var ReturnProduct = _mapper.Map< IEnumerable<Product>,IEnumerable<ProductToReturn>>(products);
+
+            return Ok(ReturnProduct);
         }
 
         [HttpGet("{id}")]
         //api/product/id
-        public async Task<ActionResult<Product>> GetProductById(int id)
+        public async Task<ActionResult<ProductToReturn>> GetProductById(int id)
         {
             var productspec = new ProductSpecfication(id);
             var product = await _repository.GetByIdAsyncWithSpec(id, productspec);
@@ -36,7 +42,9 @@ namespace E_Commerce.APIs.Controllers
             if (product is null)
                 return NotFound(new {Message = "Not Found", StatusCode = 404});
 
-            return Ok(product);
+            var ReturnProduct = _mapper.Map<Product, ProductToReturn>(product);
+
+            return Ok(ReturnProduct);
         }
 
     }
