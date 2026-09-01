@@ -31,13 +31,12 @@ namespace E_Commerce.APIs.Controllers
 
             return Ok(ReturnProduct);
         }
-
         [HttpGet("{id}")]
         //api/product/id
         public async Task<ActionResult<ProductToReturn>> GetProductById(int id)
         {
             var productspec = new ProductSpecfication(id);
-            var product = await _repository.GetByIdAsyncWithSpec(id, productspec);
+            var product = await _repository.GetByIdAsyncWithSpec(productspec);
 
             if (product is null)
                 return NotFound(new {Message = "Not Found", StatusCode = 404});
@@ -46,6 +45,5 @@ namespace E_Commerce.APIs.Controllers
 
             return Ok(ReturnProduct);
         }
-
     }
 }

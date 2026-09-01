@@ -19,4 +19,25 @@
     <ProjectReference Include="..\E-Commerce.Repository\E-Commerce.Repository.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\images\products\blueberry-cheesecake.png" />
+    <None Include="wwwroot\images\products\double-caramel-frappuccino.png" />
+    <None Include="wwwroot\images\products\double-smoked-bacon-cheddar-and-egg-sandwich.png" />
+    <None Include="wwwroot\images\products\dragon-drink-starbucks-refreshers-beverage-with-oleato-golden-foam.png" />
+    <None Include="wwwroot\images\products\glazed-donuts.png" />
+    <None Include="wwwroot\images\products\greek-salad.png" />
+    <None Include="wwwroot\images\products\honey-cake.png" />
+    <None Include="wwwroot\images\products\hot-caramel-macchiato.png" />
+    <None Include="wwwroot\images\products\iced-black-tea-lemonade.png" />
+    <None Include="wwwroot\images\products\iced-cafe-latte.png" />
+    <None Include="wwwroot\images\products\iced-caramel-macchiato.png" />
+    <None Include="wwwroot\images\products\iced-chai-tea-latte-with-oleato-golden-foam.png" />
+    <None Include="wwwroot\images\products\iced-london-fog-tea-latte.png" />
+    <None Include="wwwroot\images\products\iced-matcha-latte.png" />
+    <None Include="wwwroot\images\products\iced-matcha.png" />
+    <None Include="wwwroot\images\products\turkey-bacon-cheddar-and-egg-white-sandwich.png" />
+    <None Include="wwwroot\images\products\white-chocolate-mocha-frappuccino.png" />
+    <None Include="wwwroot\images\products\white-chocolate-mocha.png" />
+  </ItemGroup>
+
 </Project>

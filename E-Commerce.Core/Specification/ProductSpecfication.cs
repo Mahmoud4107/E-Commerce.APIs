@@ -18,8 +18,6 @@ namespace E_Commerce.Core.Specification
         {
             AddIncludes();
         }
-
-
         private void AddIncludes()
         {
             Includes?.Add(P => P.Brand);

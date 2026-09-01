@@ -32,7 +32,7 @@ namespace E_Commerce.APIs
             builder.Services.AddScoped<IGenericRepository<Product>,GenericRepository<Product>>();
 
             builder.Services.AddAutoMapper(option => option.AddProfile(new MappingProfiles()));
-            
+            builder.Services.AddTransient<ProductPictureUrlResolver>();
             #endregion
 
             var app = builder.Build();
@@ -65,6 +65,8 @@ namespace E_Commerce.APIs
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseStaticFiles();
 
             app.UseHttpsRedirection();
 

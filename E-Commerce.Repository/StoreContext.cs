@@ -24,6 +24,5 @@ namespace E_Commerce.Repository
         public DbSet<ProductBrand> ProductBrands { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }
 
-
     }
 }
