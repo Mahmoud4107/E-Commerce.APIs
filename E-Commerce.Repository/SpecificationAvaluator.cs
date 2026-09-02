@@ -12,7 +12,7 @@ namespace E_Commerce.Repository
     public static class SpecificationAvaluator<Entity> where Entity : ModelEntity
     {
         // Products.Where(P => P.Id ==id).Include(P => P.Brand).Include(P => P.Category)
-        public static IEnumerable<Entity> GetQuery(IQueryable<Entity> Sequence,ISpecification<Entity> spec)
+        public static IQueryable<Entity> GetQuery(IQueryable<Entity> Sequence,ISpecification<Entity> spec)
         {
             var query = Sequence;
             

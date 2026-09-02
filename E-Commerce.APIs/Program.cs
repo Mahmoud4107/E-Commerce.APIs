@@ -1,10 +1,13 @@
+using E_Commerce.APIs.Errors;
 using E_Commerce.APIs.Helpers;
 using E_Commerce.Core.Entities;
 using E_Commerce.Core.RepostriesContruct;
 using E_Commerce.Repository;
 using E_Commerce.Repository.Data;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
 
 namespace E_Commerce.APIs
@@ -33,6 +36,23 @@ namespace E_Commerce.APIs
 
             builder.Services.AddAutoMapper(option => option.AddProfile(new MappingProfiles()));
             builder.Services.AddTransient<ProductPictureUrlResolver>();
+
+            builder.Services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.InvalidModelStateResponseFactory = (actionContext) =>
+                {
+
+                    var errors = actionContext.ModelState
+                                                   .Where(P => P.Value.Errors.Count > 0)
+                                                   .SelectMany(P => P.Value.Errors)
+                                                   .Select(E => E.ErrorMessage)
+                                                   .ToList();
+                    var response = new ApiValidationErrorResponse() { Errors = errors };
+
+                    return new BadRequestObjectResult(response);
+                };
+
+            });
             #endregion
 
             var app = builder.Build();
@@ -54,6 +74,8 @@ namespace E_Commerce.APIs
                 var logger = loggerFactor.CreateLogger<Program>();
                 logger.LogError(ex, "An error occurred while applying database migrations.");
             }
+
+            app.UseStatusCodePagesWithReExecute("/Errors/{0}");
 
             
 

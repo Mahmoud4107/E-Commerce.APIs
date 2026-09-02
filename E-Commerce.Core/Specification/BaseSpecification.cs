@@ -10,7 +10,17 @@ namespace E_Commerce.Core.Specification
 {
     public class BaseSpecification<T> : ISpecification<T> where T : ModelEntity
     {
-        public Expression<Func<T, bool>> Crateria { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public List<Expression<Func<T, object>>> Includes { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public Expression<Func<T, bool>> Crateria { get; set; }
+        public List<Expression<Func<T, object>>> Includes { get; set; } = new List<Expression<Func<T, object>>>();
+
+        public BaseSpecification()
+        {
+            
+        }
+
+        public BaseSpecification(Expression<Func<T, bool>> _Crateria)
+        {
+            Crateria = _Crateria;
+        }
     }
 }

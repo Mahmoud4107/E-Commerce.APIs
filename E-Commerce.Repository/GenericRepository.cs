@@ -35,7 +35,7 @@ namespace E_Commerce.Repository
 
         public async Task<IEnumerable<T>> GetAllAsyncWithSpec(ISpecification<T> spec)
         {
-           return  await SpecificationAvaluator<T>.GetQuery(_context.Set<T>(), spec).AsNoTracking().ToListAsync();
+           return await SpecificationAvaluator<T>.GetQuery(_context.Set<T>(), spec).AsNoTracking().ToListAsync();
         }
 
         public async Task<T?> GetByIdAsyncWithSpec(ISpecification<T> spec)

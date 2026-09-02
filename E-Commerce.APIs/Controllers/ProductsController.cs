@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using E_Commerce.APIs.Dtos;
+using E_Commerce.APIs.Errors;
 using E_Commerce.Core.Entities;
 using E_Commerce.Core.RepostriesContruct;
 using E_Commerce.Core.Specification;
@@ -39,7 +40,7 @@ namespace E_Commerce.APIs.Controllers
             var product = await _repository.GetByIdAsyncWithSpec(productspec);
 
             if (product is null)
-                return NotFound(new {Message = "Not Found", StatusCode = 404});
+                return NotFound(new ApiResponse(404));
 
             var ReturnProduct = _mapper.Map<Product, ProductToReturn>(product);
 
