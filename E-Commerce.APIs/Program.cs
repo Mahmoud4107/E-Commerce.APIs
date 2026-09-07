@@ -1,5 +1,6 @@
 using E_Commerce.APIs.Errors;
 using E_Commerce.APIs.Helpers;
+using E_Commerce.APIs.Middlewares;
 using E_Commerce.Core.Entities;
 using E_Commerce.Core.RepostriesContruct;
 using E_Commerce.Repository;
@@ -33,6 +34,8 @@ namespace E_Commerce.APIs
             });
 
             builder.Services.AddScoped<IGenericRepository<Product>,GenericRepository<Product>>();
+            builder.Services.AddScoped<IGenericRepository<ProductBrand>, GenericRepository<ProductBrand>>();
+            builder.Services.AddScoped<IGenericRepository<ProductCategory>, GenericRepository<ProductCategory>>();
 
             builder.Services.AddAutoMapper(option => option.AddProfile(new MappingProfiles()));
             builder.Services.AddTransient<ProductPictureUrlResolver>();
@@ -53,6 +56,8 @@ namespace E_Commerce.APIs
                 };
 
             });
+            builder.Services.AddTransient<ExceptionMiddleware>();
+
             #endregion
 
             var app = builder.Build();
@@ -87,6 +92,7 @@ namespace E_Commerce.APIs
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseStaticFiles();
 

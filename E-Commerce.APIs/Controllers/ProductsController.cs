@@ -14,11 +14,16 @@ namespace E_Commerce.APIs.Controllers
     {
         private readonly IGenericRepository<Product> _repository;
         private readonly IMapper _mapper;
+        private readonly IGenericRepository<ProductBrand> _brandRepo;
+        private readonly IGenericRepository<ProductCategory> _categoryRepo;
 
-        public ProductsController(IGenericRepository<Product> repository,IMapper mapper)
+        public ProductsController(IGenericRepository<Product> repository,IMapper mapper,
+                                  IGenericRepository<ProductBrand> brandRepo,IGenericRepository<ProductCategory> categoryRepo)
         {
             _repository = repository;
             _mapper = mapper;
+            _brandRepo = brandRepo;
+            _categoryRepo = categoryRepo;
         }
 
         [HttpGet]
@@ -45,6 +50,21 @@ namespace E_Commerce.APIs.Controllers
             var ReturnProduct = _mapper.Map<Product, ProductToReturn>(product);
 
             return Ok(ReturnProduct);
+        }
+
+        [HttpGet("brands")]
+
+        public async Task<ActionResult<IEnumerable<ProductBrand>>> GetBrands()
+        {
+            var brands = await _brandRepo.GetAllAsync();
+            return Ok(brands);
+        }
+
+        [HttpGet("categories")]
+        public async Task<ActionResult<IEnumerable<ProductBrand>>> GetCategories()
+        {
+            var categories = await _categoryRepo.GetAllAsync();
+            return Ok(categories);
         }
     }
 }

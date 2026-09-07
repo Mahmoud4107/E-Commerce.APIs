@@ -13,7 +13,7 @@ namespace E_Commerce.Repository
     {
         // Products.Where(P => P.Id ==id).Include(P => P.Brand).Include(P => P.Category)
         public static IQueryable<Entity> GetQuery(IQueryable<Entity> Sequence,ISpecification<Entity> spec)
-        {
+            {
             var query = Sequence;
             
             // query =  Products
