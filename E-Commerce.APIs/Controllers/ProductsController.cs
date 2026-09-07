@@ -28,15 +28,19 @@ namespace E_Commerce.APIs.Controllers
 
         [HttpGet]
         // api/product
-        public async Task<ActionResult<IEnumerable<ProductToReturn>>> GetAllProduct()
+        public async Task<ActionResult<IEnumerable<ProductToReturn>>> GetAllProduct(string? sort)
         {
-            var productspec = new ProductSpecfication();
+            var productspec = new ProductSpecfication(sort);
             var products = await _repository.GetAllAsyncWithSpec(productspec);
 
             var ReturnProduct = _mapper.Map< IEnumerable<Product>,IEnumerable<ProductToReturn>>(products);
 
             return Ok(ReturnProduct);
         }
+
+
+
+
         [HttpGet("{id}")]
         //api/product/id
         public async Task<ActionResult<ProductToReturn>> GetProductById(int id)

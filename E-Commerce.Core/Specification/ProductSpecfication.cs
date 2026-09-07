@@ -10,9 +10,21 @@ namespace E_Commerce.Core.Specification
 {
     public class ProductSpecfication : BaseSpecification<Product>
     {
-        public ProductSpecfication():base()
+        public ProductSpecfication(string sort):base()
         {
             AddIncludes();
+
+            if(!string.IsNullOrEmpty(sort))
+            {
+                if(sort == "priceAsc")
+                    OrderBy = P => P.Price;
+                else if(sort == "priceDesc")
+                    OrderByDesc = P => P.Price;
+                else
+                    OrderBy = P => P.Name;
+            }
+            else
+                OrderBy = P => P.Name;
         }
         public ProductSpecfication(int id) : base(P => P.Id == id)
         {

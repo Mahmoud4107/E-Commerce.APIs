@@ -14,5 +14,9 @@ namespace E_Commerce.Core.Specification
 
         public Expression<Func<T, bool>> Crateria { get; set; }
         public List<Expression<Func<T,Object>>> Includes { get; set; }
+
+        public Expression<Func<T,object>> OrderBy { get; set; } // orderby(P => P.Name)
+        public Expression<Func<T,object>> OrderByDesc { get; set; } // orderbydesc(P => P.Name)
+
     }
 }
