@@ -28,9 +28,9 @@ namespace E_Commerce.APIs.Controllers
 
         [HttpGet]
         // api/product
-        public async Task<ActionResult<IEnumerable<ProductToReturn>>> GetAllProduct(string? sort)
+        public async Task<ActionResult<IEnumerable<ProductToReturn>>> GetAllProduct(string? sort,int? brandId,int? categoryId)
         {
-            var productspec = new ProductSpecfication(sort);
+            var productspec = new ProductSpecfication(sort,brandId,categoryId);
             var products = await _repository.GetAllAsyncWithSpec(productspec);
 
             var ReturnProduct = _mapper.Map< IEnumerable<Product>,IEnumerable<ProductToReturn>>(products);

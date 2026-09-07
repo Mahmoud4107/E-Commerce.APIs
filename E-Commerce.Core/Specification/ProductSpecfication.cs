@@ -10,7 +10,10 @@ namespace E_Commerce.Core.Specification
 {
     public class ProductSpecfication : BaseSpecification<Product>
     {
-        public ProductSpecfication(string sort):base()
+        public ProductSpecfication(string sort,int? brandId, int? catgoryId):base( P =>
+
+                                   ((!brandId.HasValue || P.BrandId == brandId) &&
+                                    (!catgoryId.HasValue || P.CategoryId == catgoryId)))
         {
             AddIncludes();
 
@@ -25,6 +28,9 @@ namespace E_Commerce.Core.Specification
             }
             else
                 OrderBy = P => P.Name;
+
+
+
         }
         public ProductSpecfication(int id) : base(P => P.Id == id)
         {
