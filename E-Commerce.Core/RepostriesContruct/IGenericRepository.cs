@@ -14,6 +14,8 @@ namespace E_Commerce.Core.RepostriesContruct
         Task<T?> GetByIdAsync(int id);
 
         Task<IEnumerable<T>> GetAllAsyncWithSpec(ISpecification<T> specification);
+        Task<int> GetCountAsync(ISpecification<T> specification);
+
         Task<T?> GetByIdAsyncWithSpec(ISpecification<T> specification);
 
 

@@ -42,5 +42,10 @@ namespace E_Commerce.Repository
         {
             return await SpecificationAvaluator<T>.GetQuery(_context.Set<T>(),spec).FirstOrDefaultAsync();
         }
+
+        public async Task<int> GetCountAsync(ISpecification<T> specification)
+        {
+           return await SpecificationAvaluator<T>.GetQuery(_context.Set<T>(),specification).CountAsync();
+        }
     }
 }

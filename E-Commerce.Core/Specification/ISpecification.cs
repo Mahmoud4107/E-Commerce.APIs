@@ -18,5 +18,9 @@ namespace E_Commerce.Core.Specification
         public Expression<Func<T,object>> OrderBy { get; set; } // orderby(P => P.Name)
         public Expression<Func<T,object>> OrderByDesc { get; set; } // orderbydesc(P => P.Name)
 
+        public bool IsPagination { get; set; }
+        public int Skip { get; set; }
+        public int Take { get; set; }
+
     }
 }

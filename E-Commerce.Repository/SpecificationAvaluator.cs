@@ -27,6 +27,9 @@ namespace E_Commerce.Repository
             else if(spec.OrderByDesc is not null) 
                 query = query.OrderByDescending(spec.OrderByDesc);
 
+            if (spec.IsPagination)
+                query = query.Skip(spec.Skip).Take(spec.Take);
+
                 query = spec.Includes.Aggregate(query, (CurrentQuery, QueryExpression) => CurrentQuery.Include(QueryExpression));
 
             // query = Products.Where(P => P.Id ==id).Include(P => P.Brand).Include(P => P.Category)

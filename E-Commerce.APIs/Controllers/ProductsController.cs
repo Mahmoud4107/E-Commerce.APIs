@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using E_Commerce.APIs.Dtos;
 using E_Commerce.APIs.Errors;
+using E_Commerce.APIs.Helpers;
 using E_Commerce.Core.Entities;
 using E_Commerce.Core.RepostriesContruct;
 using E_Commerce.Core.Specification;
@@ -28,18 +29,22 @@ namespace E_Commerce.APIs.Controllers
 
         [HttpGet]
         // api/product
-        public async Task<ActionResult<IEnumerable<ProductToReturn>>> GetAllProduct(string? sort,int? brandId,int? categoryId)
+        public async Task<ActionResult<Pagination<ProductToReturn>>> GetAllProduct([FromQuery] ProductSpecParams productSpecParams)
         {
-            var productspec = new ProductSpecfication(sort,brandId,categoryId);
+            var productspec = new ProductSpecfication(productSpecParams);
+
             var products = await _repository.GetAllAsyncWithSpec(productspec);
 
             var ReturnProduct = _mapper.Map< IEnumerable<Product>,IEnumerable<ProductToReturn>>(products);
 
-            return Ok(ReturnProduct);
+            var ProductWithFilteration = new ProductWithFilterationForCountSpecification(productSpecParams);
+
+            var Count = await _repository.GetCountAsync(ProductWithFilteration);
+
+            var PaginationObject = new Pagination<ProductToReturn>(productSpecParams.Pagesize, productSpecParams.PageIndex, ReturnProduct, Count);
+
+            return Ok(PaginationObject);
         }
-
-
-
 
         [HttpGet("{id}")]
         //api/product/id

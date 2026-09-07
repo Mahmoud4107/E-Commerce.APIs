@@ -10,18 +10,19 @@ namespace E_Commerce.Core.Specification
 {
     public class ProductSpecfication : BaseSpecification<Product>
     {
-        public ProductSpecfication(string sort,int? brandId, int? catgoryId):base( P =>
-
-                                   ((!brandId.HasValue || P.BrandId == brandId) &&
-                                    (!catgoryId.HasValue || P.CategoryId == catgoryId)))
+        public ProductSpecfication(ProductSpecParams productSpec):base( P =>
+                                  
+                                  ((string.IsNullOrEmpty(productSpec.Search) || P.Name.ToLower().Contains(productSpec.Search)) &&
+                                   (!productSpec.BrandId.HasValue || P.BrandId == productSpec.BrandId) &&
+                                    (!productSpec.CategoryId.HasValue || P.CategoryId == productSpec.CategoryId)))
         {
             AddIncludes();
 
-            if(!string.IsNullOrEmpty(sort))
+            if(!string.IsNullOrEmpty(productSpec.Sort))
             {
-                if(sort == "priceAsc")
+                if(productSpec.Sort == "priceAsc")
                     OrderBy = P => P.Price;
-                else if(sort == "priceDesc")
+                else if(productSpec.Sort == "priceDesc")
                     OrderByDesc = P => P.Price;
                 else
                     OrderBy = P => P.Name;
@@ -29,8 +30,7 @@ namespace E_Commerce.Core.Specification
             else
                 OrderBy = P => P.Name;
 
-
-
+            ApplyPagination((productSpec.PageIndex - 1) * productSpec.Pagesize, productSpec.Pagesize);
         }
         public ProductSpecfication(int id) : base(P => P.Id == id)
         {
