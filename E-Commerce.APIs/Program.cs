@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using StackExchange.Redis;
 using System.Threading.Tasks;
 
 namespace E_Commerce.APIs
@@ -33,9 +34,17 @@ namespace E_Commerce.APIs
                 option.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
             });
 
+            builder.Services.AddSingleton<IConnectionMultiplexer>((serviceProvides) =>
+            {
+                var connection = builder.Configuration.GetConnectionString("Redis");
+                return ConnectionMultiplexer.Connect(connection);
+            });
+
             builder.Services.AddScoped<IGenericRepository<Product>,GenericRepository<Product>>();
             builder.Services.AddScoped<IGenericRepository<ProductBrand>, GenericRepository<ProductBrand>>();
             builder.Services.AddScoped<IGenericRepository<ProductCategory>, GenericRepository<ProductCategory>>();
+
+            builder.Services.AddScoped<IBasketRepository, BasketRepository>();
 
             builder.Services.AddAutoMapper(option => option.AddProfile(new MappingProfiles()));
             builder.Services.AddTransient<ProductPictureUrlResolver>();
