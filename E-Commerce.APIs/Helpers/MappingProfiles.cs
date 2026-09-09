@@ -13,6 +13,9 @@ namespace E_Commerce.APIs.Helpers
            .ForMember(des => des.Category, option => option.MapFrom(S => S.Category.Name))
            //.ForMember(des => des.PictureUrl, option => option.MapFrom(S => $"https://localhost:7097/{S.PictureUrl}"));
            .ForMember(des => des.PictureUrl, option => option.MapFrom<ProductPictureUrlResolver>());
+
+            CreateMap<CustomerBasketDto, CustomerBasket>();
+            CreateMap<BasketItemDto, BasketItem>();
         }
     }
 }

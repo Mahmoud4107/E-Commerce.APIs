@@ -1,4 +1,6 @@
-﻿using E_Commerce.APIs.Errors;
+﻿using AutoMapper;
+using E_Commerce.APIs.Dtos;
+using E_Commerce.APIs.Errors;
 using E_Commerce.Core.Entities;
 using E_Commerce.Core.RepostriesContruct;
 using Microsoft.AspNetCore.Http;
@@ -9,10 +11,12 @@ namespace E_Commerce.APIs.Controllers
     public class BasketController : BaseAPIController
     {
         private readonly IBasketRepository basketRepo;
+        private readonly IMapper _mapper;
 
-        public BasketController(IBasketRepository _basketRepo)
+        public BasketController(IBasketRepository _basketRepo,IMapper mapper)
         {
             basketRepo = _basketRepo;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -28,9 +32,10 @@ namespace E_Commerce.APIs.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<CustomerBasket>> UpdateBasket(CustomerBasket basket)
+        public async Task<ActionResult<CustomerBasket>> UpdateBasket(CustomerBasketDto basket)
         {
-            var CreatedOrUpdated = await basketRepo.UpdateBasketAsync(basket);
+            var basketMapped = _mapper.Map<CustomerBasketDto, CustomerBasket>(basket);
+            var CreatedOrUpdated = await basketRepo.UpdateBasketAsync(basketMapped);
 
             if(CreatedOrUpdated is null)
             {
